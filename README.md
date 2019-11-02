@@ -39,3 +39,9 @@ Solution is based on a deep neural network that outputs the probability of churn
 
     * Architecture: (11) ==> Dense(6, ReLU) ==> Dropout@0.2 ==> (6, ReLU)  ==> Dropout@0.2 ==> (1, Sigmoid)
     * Hyper parameter tuning: using GridSearchCV
+    * Best Accuracy: 0.819571
+    * Best Params  
+      
+      * batch_size=25 (Tested for 25 & 32)
+      * epochs=500 (Tested for 100 & 500)
+      * optimizer=rmsprop (Tested for `rmsprop` and `adam`)
