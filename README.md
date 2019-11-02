@@ -1,4 +1,4 @@
-# Chrun Prediction
+# Churn Prediction
 
 Churn prediction exercise using Deep Neural Network.
 
