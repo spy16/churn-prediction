@@ -34,3 +34,8 @@ Solution is based on a deep neural network that outputs the probability of churn
     * k-Fold Cross Validation: Max=0.860000 Min=0.774286 [Mean=0.802714 Variance=0.022619]
     * Accuracy (train): 79.27142857142857%
     * Accuracy (test) : 80.46666666666667%
+
+4. `predict_churn_v4.py`:
+
+    * Architecture: (11) ==> Dense(6, ReLU) ==> Dropout@0.2 ==> (6, ReLU)  ==> Dropout@0.2 ==> (1, Sigmoid)
+    * Hyper parameter tuning: using GridSearchCV
