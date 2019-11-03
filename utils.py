@@ -1,7 +1,39 @@
+import os
+
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
+from keras.models import model_from_json
+import joblib
+
+def load_model(_dir, prefix='model'):
+    desc_file = os.path.join(_dir,  "{}_{}.json".format(prefix, "spec"))
+    weights_file = os.path.join(_dir, "{}_{}.h5".format(prefix, "weights"))
+    scaler_file = os.path.join(_dir, "{}_{}.bin".format(prefix, "scaler"))
+
+    model = None
+    with open(desc_file, "r") as spec_file:
+        model = model_from_json(spec_file.read())
+    model.load_weights(weights_file)
+    scaler = joblib.load(scaler_file)
+    return (model, scaler)
+
+
+def save_model(model, scaler, _dir, prefix='model'):
+    os.mkdir(_dir)
+
+    desc_file = os.path.join(_dir,  "{}_{}.json".format(prefix, "spec"))
+    weights_file = os.path.join(_dir, "{}_{}.h5".format(prefix, "weights"))
+    scaler_file = os.path.join(_dir, "{}_{}.bin".format(prefix, "scaler"))
+
+    model_json = model.to_json()
+    with open(desc_file, "w") as json_file:
+        json_file.write(model_json)
+    # serialize weights to HDF5
+    model.save_weights(weights_file)
+    joblib.dump(scaler, scaler_file, compress=True)
+
 
 def read_data(fileName="customer-data.csv"):
     data = pd.read_csv(fileName)

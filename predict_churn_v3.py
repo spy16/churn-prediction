@@ -4,7 +4,7 @@ from keras.layers import Dense, Dropout
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import cross_val_score
 
-from utils import read_data, split_and_normalize, accuracy
+from utils import read_data, split_and_normalize, accuracy, save_model
 
 
 def build_classifier(optimizer='adam', loss='binary_crossentropy'):
@@ -31,6 +31,7 @@ if __name__ == "__main__":
     classifier = KerasClassifier(
         build_fn=build_classifier, batch_size=10, epochs=100)
     classifier.fit(X_train, y_train)
+    save_model(classifier, scaler, "models", prefix="v3")
 
     accuracies = cross_val_score(
         estimator=classifier, X=X_train, y=y_train, cv=10, n_jobs=-1)

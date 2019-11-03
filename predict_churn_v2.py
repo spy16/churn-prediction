@@ -2,7 +2,7 @@ from sklearn.preprocessing import StandardScaler
 from keras import Sequential
 from keras.layers import Dense, Dropout
 
-from utils import read_data, split_and_normalize, accuracy
+from utils import read_data, split_and_normalize, accuracy, save_model
 
 
 def build_classifier(optimizer='adam', loss='binary_crossentropy'):
@@ -27,6 +27,7 @@ if __name__ == "__main__":
 
     classifier = build_classifier()
     classifier.fit(x=X_train, y=y_train, batch_size=10, epochs=100)
+    save_model(classifier, scaler, "models", prefix="v2")
 
     y_pred_train = classifier.predict(X_train) > 0.5
     y_pred_test = classifier.predict(X_test) > 0.5
