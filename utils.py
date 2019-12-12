@@ -6,6 +6,36 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from keras.models import model_from_json
 import joblib
+import matplotlib.pyplot as plt
+
+
+def plot_history(history):
+    # summarize history for accuracy
+    legend = ['train']
+    plt.subplot(211)
+    plt.plot(history.history['accuracy'])
+    if 'val_accuracy' in history.history:
+        plt.plot(history.history['val_accuracy'])
+        legend.append('test')
+
+    plt.title('model accuracy')
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(legend, loc='upper left')
+    plt.show()
+
+    # summarize history for loss
+    plt.subplot(212)
+    plt.plot(history.history['loss'])
+    if 'val_loss' in history.history:
+        plt.plot(history.history['val_loss'])
+    
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(legend, loc='upper left')
+    plt.show()
+
 
 def load_model(_dir, prefix='model'):
     desc_file = os.path.join(_dir,  "{}_{}.json".format(prefix, "spec"))
@@ -21,7 +51,8 @@ def load_model(_dir, prefix='model'):
 
 
 def save_model(model, scaler, _dir, prefix='model'):
-    os.mkdir(_dir)
+    if not os.path.exists(_dir):
+        os.mkdir(_dir)
 
     desc_file = os.path.join(_dir,  "{}_{}.json".format(prefix, "spec"))
     weights_file = os.path.join(_dir, "{}_{}.h5".format(prefix, "weights"))
